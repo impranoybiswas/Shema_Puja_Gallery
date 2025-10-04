@@ -16,7 +16,7 @@ export const useImageKitUpload = (
   const uploadImage = async (file: File): Promise<string | null> => {
     if (!file) return null;
 
-    if (file.size > 3 * 1024 * 1024) {
+    if (file.size > 20 * 1024 * 1024) {
       toast.error("Image size should be under 3MB");
       return null;
     }

@@ -31,7 +31,7 @@ export function ImageUpload({
 
   return (
     <div
-      className={`flex flex-col md:flex-row items-center justify-between gap-4 border rounded-xl p-4 shadow-sm bg-white ${className}`}
+      className={`flex flex-col md:flex-row items-center justify-between gap-4 border border-gray-200 rounded-xl p-4 shadow-sm bg-white ${className}`}
     >
       {/* Upload Input */}
       <div className="flex flex-col gap-2 w-full md:w-auto">

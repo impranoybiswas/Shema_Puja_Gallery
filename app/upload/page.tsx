@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { motion } from "motion/react";
+import Link from "next/link";
+import { FaHome } from "react-icons/fa";
 
 export default function UploadPage() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -44,8 +46,8 @@ export default function UploadPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
-      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6 space-y-6">
+    <main className="min-h-dvh pt-30 flex items-center justify-center bg-gray-500 p-6">
+      <motion.div initial={{ y: -200 }} animate={{ y: 0 }} className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6 space-y-6">
         <h2 className="text-2xl font-bold text-center text-gray-800">
           Upload Your Puja Photo
         </h2>
@@ -74,7 +76,7 @@ export default function UploadPage() {
         {status === "authenticated" && session?.user && (
           <div className="flex flex-col gap-4">
             {/* User Info & Logout */}
-            <div className="flex items-center justify-between bg-gray-50 p-3 rounded-lg shadow-inner">
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-gray-50 p-3 rounded-lg shadow-inner">
               <div>
                 <p className="text-gray-700 font-semibold">
                   {session.user.name}
@@ -92,7 +94,7 @@ export default function UploadPage() {
             </div>
 
             <p className="text-gray-700 text-center">
-              Select a photo to upload:
+              Select a photo to upload
             </p>
 
             <ImageUpload
@@ -116,7 +118,8 @@ export default function UploadPage() {
             )}
           </div>
         )}
-      </div>
-    </div>
+      </motion.div>
+      <Link href="/" className='flex items-center justify-center gap-2 text-white text-3xl font-bold bg-gray-900 size-16 rounded-full fixed bottom-8 right-8 p-4 z-60'><FaHome /></Link>
+    </main>
   );
 }
