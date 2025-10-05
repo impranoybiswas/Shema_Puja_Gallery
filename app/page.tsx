@@ -66,47 +66,35 @@ export default function ImageGallery() {
   }
 
   return (
-    <main className="min-h-dvh p-6 pt-36 bg-gray-500">
-      <div
-        className="
-          grid 
-          grid-cols-2 
-          sm:grid-cols-3 
-          md:grid-cols-5 
-          lg:grid-cols-8 
-          gap-4
-        "
-      >
-        {images.map((img, index) => (
-          <motion.div
-            key={index}
-            className="relative cursor-pointer overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.04 }}
-            onClick={() => {
-              setCurrentIndex(index);
-              setOpen(true);
-            }}
-          >
-            <Image
-              src={img.imageUrl}
-              width={300}
-              height={200}
-              alt={`Uploaded by ${img.userName}`}
-              className="w-full h-40 md:h-48 object-cover"
-            />
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent text-white text-xs md:text-sm p-2">
-              <p className="font-semibold truncate text-sm">{img.userName}</p>
-              <p className="truncate text-xs">{img.userEmail}</p>
-              <p className="text-[10px] md:text-xs opacity-80">
-                {new Date(img.createdAt).toLocaleDateString()}
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
+    <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-8 gap-5">
+      {images.map((img, index) => (
+        <motion.div
+          key={index}
+          className="relative cursor-pointer overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:scale-104 transition-all duration-300 border-[1px] border-black/10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.05 }}
+          onClick={() => {
+            setCurrentIndex(index);
+            setOpen(true);
+          }}
+        >
+          <Image
+            src={img.imageUrl}
+            width={300}
+            height={200}
+            alt={`Uploaded by ${img.userName}`}
+            className="w-full h-40 md:h-48 object-cover "
+          />
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent text-white text-xs md:text-sm p-2">
+            <p className="font-semibold truncate text-sm">{img.userName}</p>
+            <p className="truncate text-xs">{img.userEmail}</p>
+            <p className="text-[10px] md:text-xs opacity-80">
+              {new Date(img.createdAt).toLocaleDateString()}
+            </p>
+          </div>
+        </motion.div>
+      ))}
       {/* ✅ Lightbox */}
       <Lightbox
         open={open}
@@ -119,8 +107,13 @@ export default function ImageGallery() {
           ).toLocaleString()}`,
         }))}
       />
-
-<Link href="/upload" className='flex items-center justify-center gap-2 text-white text-3xl font-bold bg-gray-900 size-16 rounded-full fixed bottom-8 right-8 p-4 z-60'><FaCloudUploadAlt /></Link>
-    </main>
+      {/* 🔗 Bottom Button */}
+      <Link
+        href="/upload"
+        className="flex items-center justify-center gap-2 text-white text-3xl font-bold bg-[#3c40c6] size-14 rounded-full fixed bottom-10 right-8 p-4 z-60 shadow-xl text-shadow-xs"
+      >
+        <FaCloudUploadAlt />
+      </Link>
+    </div>
   );
 }

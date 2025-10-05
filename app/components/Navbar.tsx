@@ -3,9 +3,9 @@ import React from "react";
 
 export default function Navbar() {
   return (
-    <nav className="h-32 w-full text-white flex flex-col items-center gap-1 fixed top-0 left-0 z-50 justify-center bg-gray-700 border-b border-slate-900 px-5 rounded-b-xl shadow-lg">
+    <nav className="h-32 w-full text-white flex flex-col items-center gap-1 fixed top-0 left-0 z-50 justify-center bg-[#3c40c6] px-5 rounded-b-4xl shadow-2xl text-shadow-xs">
       <Image
-        className="border-2 border-white size-12 object-cover rounded-full"
+        className="border-2 border-white size-13 object-cover rounded-full"
         src="/kali.jpg"
         alt="Logo"
         width={100}

@@ -46,8 +46,14 @@ export default function UploadPage() {
   };
 
   return (
-    <main className="min-h-dvh pt-30 flex items-center justify-center bg-gray-500 p-6">
-      <motion.div initial={{ y: -200 }} animate={{ y: 0 }} className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6 space-y-6">
+    <section className="flex flex-col gap-5">
+      {/* Left side: Login / Info */}
+      <motion.div
+        initial={{ y: -200, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="w-full bg-white shadow-lg rounded-2xl p-6 space-y-6 mx-auto max-w-lg"
+      >
         <h2 className="text-2xl font-bold text-center text-gray-800">
           Upload Your Puja Photo
         </h2>
@@ -74,52 +80,64 @@ export default function UploadPage() {
         )}
 
         {status === "authenticated" && session?.user && (
-          <div className="flex flex-col gap-4">
-            {/* User Info & Logout */}
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-gray-50 p-3 rounded-lg shadow-inner">
-              <div>
-                <p className="text-gray-700 font-semibold">
-                  {session.user.name}
-                </p>
-                <p className="text-gray-500 text-sm">{session.user.email}</p>
-              </div>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => signOut()}
-                className="text-sm bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg font-medium transition"
-              >
-                Log out
-              </motion.button>
+          <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between border border-gray-200 rounded-xl p-4 shadow-sm bg-white">
+            <div>
+              <p className="text-gray-700 font-semibold">{session.user.name}</p>
+              <p className="text-gray-500 text-sm">{session.user.email}</p>
             </div>
-
-            <p className="text-gray-700 text-center">
-              Select a photo to upload
-            </p>
-
-            <ImageUpload
-              folder="shemapuja"
-              label="Puja Photo"
-              imageUrl={imageUrl}
-              onUploadSuccess={handleUploadSuccess}
-              className="mb-4"
-            />
-
-            {saving && (
-              <p className="text-center text-blue-600 font-medium">
-                Saving to database...
-              </p>
-            )}
-
-            {imageUrl && !saving && (
-              <p className="text-center text-green-600 font-medium">
-                Uploaded and saved successfully!
-              </p>
-            )}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => signOut()}
+              className="text-sm bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition"
+            >
+              Log out
+            </motion.button>
           </div>
         )}
       </motion.div>
-      <Link href="/" className='flex items-center justify-center gap-2 text-white text-3xl font-bold bg-gray-900 size-16 rounded-full fixed bottom-8 right-8 p-4 z-60'><FaHome /></Link>
-    </main>
+
+      {/* Right side: Upload Section */}
+      {status === "authenticated" && session?.user && (
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="p-6 bg-white rounded-2xl shadow-lg w-full mx-auto max-w-lg"
+        >
+          <p className="text-gray-700 text-center mb-4">
+            Select a photo to upload
+          </p>
+
+          <ImageUpload
+            folder="shemapuja"
+            label="Puja Photo"
+            imageUrl={imageUrl}
+            onUploadSuccess={handleUploadSuccess}
+            className="mb-4"
+          />
+
+          {saving && (
+            <p className="text-center text-blue-600 font-medium">
+              Saving to database...
+            </p>
+          )}
+
+          {imageUrl && !saving && (
+            <p className="text-center text-green-600 font-medium">
+              Uploaded and saved successfully!
+            </p>
+          )}
+        </motion.div>
+      )}
+
+      {/* 🔗 Bottom Button */}
+      <Link
+        href="/"
+        className="flex items-center justify-center gap-2 text-white text-3xl font-bold bg-[#3c40c6] size-14 rounded-full fixed bottom-10 right-8 p-4 z-60 shadow-xl text-shadow-xs"
+      >
+        <FaHome />
+      </Link>
+    </section>
   );
 }
