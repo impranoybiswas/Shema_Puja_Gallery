@@ -84,6 +84,7 @@ export default function UploadPage() {
             <div>
               <p className="text-gray-700 font-semibold">{session.user.name}</p>
               <p className="text-gray-500 text-sm">{session.user.email}</p>
+              <p className="text-gray-500 text-sm">{session.user.role}</p>
             </div>
             <motion.button
               whileHover={{ scale: 1.05 }}

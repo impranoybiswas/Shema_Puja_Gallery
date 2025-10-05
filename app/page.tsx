@@ -5,9 +5,11 @@ import { motion } from "framer-motion";
 import Lightbox from "yet-another-react-lightbox";
 import Image from "next/image";
 import Link from "next/link";
-import { FaCloudUploadAlt } from "react-icons/fa";
+import { FaCloudUploadAlt, FaTrash } from "react-icons/fa";
+import { useSession } from "next-auth/react";
 
 type GalleryImage = {
+  _id: string;
   imageUrl: string;
   userName: string;
   userEmail: string;
@@ -19,6 +21,8 @@ export default function ImageGallery() {
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  const { data: session, status } = useSession();
 
   // ✅ Refetch function (reusable)
   const fetchImages = async () => {
@@ -39,15 +43,40 @@ export default function ImageGallery() {
   };
 
   useEffect(() => {
-    // প্রথমবার লোডের সময় fetch
     fetchImages();
 
-    // ✅ প্রতি 1 মিনিট (60,000ms) পর পর auto-refetch
     const interval = setInterval(fetchImages, 60000);
 
-    // Cleanup: কম্পোনেন্ট unmount হলে interval clear করে দাও
     return () => clearInterval(interval);
   }, []);
+
+  const handleDelete = async (id: string) => {
+    // Step 1: Confirmation box
+    const confirmed = confirm("Are you sure you want to delete this photo?");
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch("/api/delete-photo", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(data.message || "Photo deleted successfully.");
+        fetchImages();
+      } else {
+        alert(data.error || "Failed to delete photo.");
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      alert("Something went wrong. Please try again later.");
+    }
+  };
 
   if (loading) {
     return (
@@ -93,6 +122,13 @@ export default function ImageGallery() {
               {new Date(img.createdAt).toLocaleDateString()}
             </p>
           </div>
+          {status === "authenticated" && session?.user.role === "admin" && (
+          <button
+            onClick={() => handleDelete(img._id)}
+            className="size-8 bg-red-400 text-white flex justify-center items-center rounded-full absolute z-20 top-2 right-2"
+          >
+            <FaTrash />
+          </button>)}
         </motion.div>
       ))}
       {/* ✅ Lightbox */}
